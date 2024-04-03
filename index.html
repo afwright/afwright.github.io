@@ -10,31 +10,38 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
-            background-color: #fff; /* Adjust to match the logo background */
-            cursor: none; /* Hides the default cursor */
-            position: relative;
+            background-color: #fff; /* Set to match your logo's background */
         }
 
         .logo-icon {
-            width: 64px; /* Reduced size for the logo icon */
-            height: 64px;
+            width: 100px; /* Set the size of the logo */
+            height: 100px;
             margin-bottom: 20px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .headline {
-            font-size: 24px;
-            margin-bottom: 10px;
         }
 
         .description {
-            margin-bottom: 20px;
+            width: 300px; /* Box width set to three times the logo width */
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            border: 1px solid #ccc; /* Border color for the box, adjust as needed */
+            background-color: #f9f9f9; /* Background color for the box */
+        }
+
+        .tell-me-more-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333; /* Button color */
+            color: #fff; /* Button text color */
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none; /* Removes underline from links */
         }
 
         .cursor-shadow {
@@ -42,44 +49,34 @@
             height: 20px;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.2); /* Shadow color */
-            position: absolute;
+            position: fixed;
             pointer-events: none; /* Allows clicking through the shadow */
-            transition: transform 0.2s ease; /* Smooth transition for the shadow movement */
+            mix-blend-mode: multiply; /* Blends the shadow with the background */
             z-index: 9999;
-        }
-
-        .tell-me-more-btn {
-            padding: 10px 20px;
-            background-color: #333; /* Button color */
-            color: #fff; /* Button text color */
-            text-transform: uppercase;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-            text-decoration: none; /* Removes underline from links */
-            display: inline-block;
         }
     </style>
 </head>
 <body>
-    <div class="logo-icon">
-        <img src="blob.png" alt="BusinessMind.ai Logo" style="width: 100%; height: auto;">
+    <img src="blob.png" alt="BusinessMind.ai Logo" class="logo-icon">
+    
+    <div class="description">
+        Harnessing artificial intelligence to streamline complex web and mobile applications for businesses, allowing revenue to flow through natural language.
     </div>
-    <div class="content">
-        <h1 class="headline">Welcome to BusinessMind.ai</h1>
-        <p class="description">Harnessing artificial intelligence to streamline complex web and mobile applications for businesses, allowing revenue to flow through natural language.</p>
-        <a href="mailto:humans@businessmind.ai" class="tell-me-more-btn">Tell me more</a>
-    </div>
+    
+    <a href="mailto:humans@businessmind.ai" class="tell-me-more-btn">Tell Me More</a>
+    
     <div class="cursor-shadow"></div>
 
     <script>
         const cursorShadow = document.querySelector('.cursor-shadow');
-
+        
         document.addEventListener('mousemove', (e) => {
+            // Offset the shadow position slightly from the cursor
+            const shadowOffset = 20;
             const mouseX = e.clientX;
             const mouseY = e.clientY;
-            cursorShadow.style.transform = `translate3d(${mouseX - 10}px, ${mouseY - 10}px, 0)`;
+            cursorShadow.style.left = (mouseX + shadowOffset) + 'px';
+            cursorShadow.style.top = (mouseY + shadowOffset) + 'px';
         });
     </script>
 </body>
