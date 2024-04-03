@@ -13,11 +13,14 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column;
-            background-color: #f0f0f0;
+            background-color: #fff; /* Adjust to match the logo background */
+            cursor: none; /* Hides the default cursor */
+            position: relative;
         }
 
-        .logo {
+        .logo-icon {
+            width: 64px; /* Reduced size for the logo icon */
+            height: 64px;
             margin-bottom: 20px;
         }
 
@@ -33,42 +36,51 @@
         .description {
             margin-bottom: 20px;
         }
+
+        .cursor-shadow {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2); /* Shadow color */
+            position: absolute;
+            pointer-events: none; /* Allows clicking through the shadow */
+            transition: transform 0.2s ease; /* Smooth transition for the shadow movement */
+            z-index: 9999;
+        }
+
+        .tell-me-more-btn {
+            padding: 10px 20px;
+            background-color: #333; /* Button color */
+            color: #fff; /* Button text color */
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none; /* Removes underline from links */
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
-  <title>Cursor Shadow Effect</title>
-      <style>
-          body {
-              cursor: none; /* Hides the default cursor */
-          }
-
-          .cursor-shadow {
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              background: rgba(0, 0, 0, 0.2); /* Shadow color */
-              position: absolute;
-              pointer-events: none; /* Allows clicking through the shadow */
-              transition: transform 0.2s ease; /* Smooth transition for the shadow movement */
-              z-index: 9999;
-          }
-      </style>
-      <div class="cursor-shadow"></div>
-      <script>
-          const cursorShadow = document.querySelector('.cursor-shadow');
-
-          document.addEventListener('mousemove', (e) => {
-              const mouseX = e.clientX;
-              const mouseY = e.clientY;
-              cursorShadow.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-          });
-      </script>
-    <div class="logo">
-        <img src="blob.png" alt="BusinessMind.ai Logo">
+    <div class="logo-icon">
+        <img src="blob.png" alt="BusinessMind.ai Logo" style="width: 100%; height: auto;">
     </div>
     <div class="content">
         <h1 class="headline">Welcome to BusinessMind.ai</h1>
         <p class="description">Harnessing artificial intelligence to streamline complex web and mobile applications for businesses, allowing revenue to flow through natural language.</p>
+        <a href="mailto:humans@businessmind.ai" class="tell-me-more-btn">Tell me more</a>
     </div>
+    <div class="cursor-shadow"></div>
+
+    <script>
+        const cursorShadow = document.querySelector('.cursor-shadow');
+
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            cursorShadow.style.transform = `translate3d(${mouseX - 10}px, ${mouseY - 10}px, 0)`;
+        });
+    </script>
 </body>
 </html>
