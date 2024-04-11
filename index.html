@@ -43,17 +43,6 @@
             text-decoration: none; /* Removes underline from links */
         }
 
-        .cursor-shadow {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2); /* Shadow color */
-            position: fixed;
-            pointer-events: none; /* Allows clicking through the shadow */
-            mix-blend-mode: multiply; /* Blends the shadow with the background */
-            z-index: 9999;
-        }
-
 ripple {
             position: absolute;
             border-radius: 50%;
@@ -83,17 +72,6 @@ ripple {
     <div class="cursor-shadow"></div>
 
     <script>
-        const cursorShadow = document.querySelector('.cursor-shadow');
-        
-        document.addEventListener('mousemove', (e) => {
-            // Offset the shadow position slightly from the cursor
-            const shadowOffset = 20;
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            cursorShadow.style.left = (mouseX + shadowOffset) + 'px';
-            cursorShadow.style.top = (mouseY + shadowOffset) + 'px';
-        });
-
 document.body.addEventListener('mousemove', function(e) {
     var ripple = document.createElement('div');
     ripple.className = 'ripple';
