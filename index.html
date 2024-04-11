@@ -42,42 +42,68 @@
             font-size: 16px;
             text-decoration: none; /* Removes underline from links */
         }
-
-        .cursor-shadow {
-            width: 20px;
-            height: 20px;
+        .ripple {
+            position: absolute;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2); /* Shadow color */
-            position: fixed;
-            pointer-events: none; /* Allows clicking through the shadow */
-            mix-blend-mode: multiply; /* Blends the shadow with the background */
-            z-index: 9999;
+            background: rgba(205,209,228,0.1);
+            transform: scale(0);
+            animation: ripple-animation 2s linear; /* Slowed down animation */
+            z-index: -1; /* Ensures ripples are in the background */
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Ensure other content is above the ripples */
+        .content {
+            position: relative;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
     <img src="blob.png" alt="BusinessMind.ai Logo" class="logo-icon">
-    
+
     <div class="description">
         Replacing complex web and mobile applications with artificially intelligent agents, allowing revenue to flow through natural language.
     </div>
-    
+
     <a href="mailto:humans@businessmind.ai" class="tell-me-more-btn">Tell Me More</a>
-    
+
     <div class="cursor-shadow"></div>
 
     <script>
-        const cursorShadow = document.querySelector('.cursor-shadow');
-        
-        document.addEventListener('mousemove', (e) => {
-            // Offset the shadow position slightly from the cursor
-            const shadowOffset = 20;
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            cursorShadow.style.left = (mouseX + shadowOffset) + 'px';
-            cursorShadow.style.top = (mouseY + shadowOffset) + 'px';
+    let lastX, lastY, lastTime = 0;
+    const rippleInterval = 500; // Minimum time interval between ripple creations in milliseconds
+
+    document.body.addEventListener('mousemove', function(e) {
+      //  if (Date.now() - lastTime < rippleInterval) return; // Debounce to reduce frequency
+
+        let deltaX = e.pageX - (lastX || e.pageX);
+        let deltaY = e.pageY - (lastY || e.pageY);
+        let deltaDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        let deltaTime = Date.now() - lastTime;
+        let speed = deltaTime ? deltaDistance / deltaTime : 0;
+
+        lastX = e.pageX;
+        lastY = e.pageY;
+        lastTime = Date.now();
+
+        let ripple = document.createElement('div');
+        ripple.className = 'ripple';
+        document.body.appendChild(ripple);
+        ripple.style.width = ripple.style.height = `${30 / speed + 20}px`; // Adjust size based on speed, made larger for visibility
+        ripple.style.left = e.pageX - ripple.offsetWidth / 2 + 'px';
+        ripple.style.top = e.pageY - ripple.offsetHeight / 2 + 'px';
+
+        ripple.addEventListener('animationend', function() {
+            ripple.parentElement.removeChild(ripple);
         });
+    });
     </script>
 </body>
 </html>
-
