@@ -42,13 +42,14 @@
             font-size: 16px;
             text-decoration: none; /* Removes underline from links */
         }
-        .ripple {
+
+         .ripple {
             position: absolute;
             border-radius: 50%;
             background: rgba(205,209,228,0.1);
             transform: scale(0);
-            animation: ripple-animation 2s linear; /* Slowed down animation */
-            z-index: -1; /* Ensures ripples are in the background */
+            animation: ripple-animation 1.2s linear;
+            z-index: -1;
         }
 
         @keyframes ripple-animation {
@@ -58,7 +59,6 @@
             }
         }
 
-        /* Ensure other content is above the ripples */
         .content {
             position: relative;
             z-index: 1;
@@ -77,33 +77,48 @@
     <div class="cursor-shadow"></div>
 
     <script>
-    let lastX, lastY, lastTime = 0;
-    const rippleInterval = 500; // Minimum time interval between ripple creations in milliseconds
+   let lastX, lastY, lastTime = 0;
+const rippleInterval = 500;
 
-    document.body.addEventListener('mousemove', function(e) {
-      //  if (Date.now() - lastTime < rippleInterval) return; // Debounce to reduce frequency
+function createRipple(pageX, pageY) {
+    if (Date.now() - lastTime < rippleInterval) return;
 
-        let deltaX = e.pageX - (lastX || e.pageX);
-        let deltaY = e.pageY - (lastY || e.pageY);
-        let deltaDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        let deltaTime = Date.now() - lastTime;
-        let speed = deltaTime ? deltaDistance / deltaTime : 0;
+    let deltaX = pageX - (lastX || pageX);
+    let deltaY = pageY - (lastY || pageY);
+    let deltaDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    let deltaTime = Date.now() - lastTime;
+    let speed = deltaTime ? deltaDistance / deltaTime : 0;
 
-        lastX = e.pageX;
-        lastY = e.pageY;
-        lastTime = Date.now();
+    lastX = pageX;
+    lastY = pageY;
+    lastTime = Date.now();
 
-        let ripple = document.createElement('div');
-        ripple.className = 'ripple';
-        document.body.appendChild(ripple);
-        ripple.style.width = ripple.style.height = `${30 / speed + 20}px`; // Adjust size based on speed, made larger for visibility
-        ripple.style.left = e.pageX - ripple.offsetWidth / 2 + 'px';
-        ripple.style.top = e.pageY - ripple.offsetHeight / 2 + 'px';
+    let ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    document.body.appendChild(ripple);
+    ripple.style.width = ripple.style.height = `${30 / speed + 20}px`;
+    ripple.style.left = pageX - ripple.offsetWidth / 2 + 'px';
+    ripple.style.top = pageY - ripple.offsetHeight / 2 + 'px';
 
-        ripple.addEventListener('animationend', function() {
-            ripple.parentElement.removeChild(ripple);
-        });
+    ripple.addEventListener('animationend', function() {
+        ripple.parentElement.removeChild(ripple);
     });
+}
+
+document.addEventListener('mousemove', function(e) {
+    createRipple(e.pageX, e.pageY);
+});
+
+document.addEventListener('touchmove', function(e) {
+    e.preventDefault(); // Prevent scrolling when touching the screen
+    var touch = e.touches[0];
+    createRipple(touch.pageX, touch.pageY);
+}, { passive: false });
+
+document.addEventListener('touchstart', function(e) {
+    var touch = e.touches[0];
+    createRipple(touch.pageX, touch.pageY);
+}, { passive: true });
     </script>
 </body>
 </html>
