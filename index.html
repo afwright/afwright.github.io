@@ -48,7 +48,7 @@
             border-radius: 50%;
             background: rgba(205,209,228,0.2);
             transform: scale(0);
-            animation: ripple-animation 1.2s linear;
+            animation: ripple-animation 1.5s linear;
             z-index: -1;
         }
 
@@ -81,7 +81,6 @@
 const rippleInterval = 500;
 
 function createRipple(pageX, pageY) {
-    if (Date.now() - lastTime < rippleInterval) return;
 
     let deltaX = pageX - (lastX || pageX);
     let deltaY = pageY - (lastY || pageY);
